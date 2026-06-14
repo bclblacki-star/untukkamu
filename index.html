@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buat Kamu</title>
 
-<!-- Meta biar pas dikirim WA muncul fotonya -->
 <meta property="og:title" content="Ada yang mau aku bilang">
 <meta property="og:description" content="Coba buka ini ya">
 <meta property="og:image" content="IMG-20260614-WA0026.jpg">
@@ -27,7 +26,7 @@
   .bg {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
-    background: url('IMG-20260614-WA0026.jpg') center/cover no-repeat;
+    background: url('attachment://0') center/cover no-repeat;
     opacity: 0.15; filter: blur(1px);
     z-index: -1;
   }
@@ -52,25 +51,12 @@
     background: transparent; color: #ff6b81;
     font-size: 1rem; cursor: pointer;
     transition: all 0.3s;
-    animation: fadeIn 2s ease 3s both;
-  }
-  .btn-next:hover { background: #ff6b81; color: white; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   .photo-full {
     width: 100%; height: 100%;
     object-fit: cover;
     position: absolute; top: 0; left: 0;
-    animation: zoomIn 2s ease;
-  }
-
-  @keyframes zoomIn {
-    from { transform: scale(1.2); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
   }
 
   .wa-buttons {
@@ -80,21 +66,27 @@
     padding: 0 25px; pointer-events: none;
     z-index: 10;
   }
+  
   .wa-buttons button {
     pointer-events: all; padding: 12px 22px;
     border: none; border-radius: 25px;
     background: #25D366; color: white;
     font-weight: 600; cursor: pointer;
     box-shadow: 0 4px 15px rgba(37,211,102,0.4);
-    transition: transform 0.1s;
+    position: relative;
+    transition: 0.2s;
   }
-  .wa-buttons button:active { transform: scale(0.95); }
+
+  /* Tombol Tidak Mau yang kabur */
+  #btnNo {
+    position: absolute;
+    right: 25px;
+  }
 
   .msg-final {
     position: relative; z-index: 2;
     color: white; font-size: 1.5rem;
     text-shadow: 0 2px 15px rgba(0,0,0,0.9);
-    animation: fadeIn 2s ease 1s both;
   }
 </style>
 </head>
@@ -102,7 +94,7 @@
 
 <div class="bg"></div>
 
-<audio id="bgmusic" loop autoplay>
+<audio id="bgmusic" loop>
   <source src="Sabar - Sadewok Official Music Video.mp3" type="audio/mpeg">
 </audio>
 
@@ -117,13 +109,13 @@
 </div>
 
 <div class="page" id="p3">
-  <img src="IMG-20260614-WA0026.jpg" class="photo-full" onclick="showFinal()">
+  <img src="attachment://0" class="photo-full" onclick="showFinal()">
   <div class="msg-final" id="final" style="display:none;">Aku sayang kamu ❤️</div>
 </div>
 
 <div class="wa-buttons">
   <button onclick="openWA()">Mau</button>
-  <button onclick="openWA()">Tidak Mau</button>
+  <button id="btnNo">Tidak Mau</button>
 </div>
 
 <script>
@@ -131,13 +123,12 @@
   const txt2 = "Aku tau aku bukan yang terbaik.\n\nTapi aku janji bakal usaha jadi alasan kamu betah di sini.";
 
   let i1 = 0, i2 = 0;
-  let typing1, typing2;
 
   function typeWriter1() {
     if (i1 < txt1.length) {
       document.getElementById("text1").innerHTML += txt1.charAt(i1);
       i1++;
-      typing1 = setTimeout(typeWriter1, 60);
+      setTimeout(typeWriter1, 60);
     }
   }
 
@@ -145,14 +136,13 @@
     if (i2 < txt2.length) {
       document.getElementById("text2").innerHTML += txt2.charAt(i2);
       i2++;
-      typing2 = setTimeout(typeWriter2, 60);
+      setTimeout(typeWriter2, 60);
     }
   }
 
   function nextPage(current) {
     document.getElementById('p' + current).classList.remove('active');
     document.getElementById('p' + (current + 1)).classList.add('active');
-    
     if (current == 1) typeWriter2();
   }
 
@@ -164,12 +154,37 @@
     window.open('https://wa.me/62895351432524', '_blank');
   }
 
-  // Auto play musik + start typing halaman 1
-  window.onload = function() {
+  // Play musik pas user klik pertama kali
+  document.body.addEventListener('click', function playMusic() {
     document.getElementById('bgmusic').play().catch(()=>{});
+    document.body.removeEventListener('click', playMusic);
+  }, { once: true });
+
+  // Tombol Tidak Mau kabur
+  const btnNo = document.getElementById('btnNo');
+  
+  function moveButton() {
+    const maxX = window.innerWidth - btnNo.offsetWidth - 25;
+    const maxY = window.innerHeight - btnNo.offsetHeight - 80;
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * (maxY - 50) + 50;
+    
+    btnNo.style.position = 'fixed';
+    btnNo.style.left = newX + 'px';
+    btnNo.style.top = newY + 'px';
+  }
+
+  btnNo.addEventListener('mouseover', moveButton);
+  btnNo.addEventListener('touchstart', moveButton);
+  btnNo.addEventListener('click', function(e) {
+    e.preventDefault();
+    moveButton();
+  });
+
+  window.onload = function() {
     typeWriter1();
   }
 </script>
 
 </body>
-  </html>
+   </html>
