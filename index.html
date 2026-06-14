@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buat Kamu</title>
+
+<!-- Meta biar pas dikirim WA muncul fotonya -->
+<meta property="og:title" content="Ada yang mau aku bilang">
+<meta property="og:description" content="Coba buka ini ya">
+<meta property="og:image" content="IMG-20260614-WA0026.jpg">
+
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: #000; font-family: 'Courier New', monospace; }
+
+  .page {
+    position: absolute; width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 30px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 1s ease;
+  }
+  .page.active { opacity: 1; pointer-events: all; }
+
+  .bg {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('IMG-20260614-WA0026.jpg') center/cover no-repeat;
+    opacity: 0.15; filter: blur(1px);
+    z-index: -1;
+  }
+
+  .typewriter {
+    font-size: 1.2rem; line-height: 1.9;
+    color: #fff; max-width: 340px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    border-right: 2px solid #ff6b81;
+    white-space: pre-wrap;
+    overflow: hidden;
+    animation: blink 0.8s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  .btn-next {
+    margin-top: 40px; padding: 12px 35px;
+    border: 2px solid #ff6b81; border-radius: 25px;
+    background: transparent; color: #ff6b81;
+    font-size: 1rem; cursor: pointer;
+    transition: all 0.3s;
+    animation: fadeIn 2s ease 3s both;
+  }
+  .btn-next:hover { background: #ff6b81; color: white; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .photo-full {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute; top: 0; left: 0;
+    animation: zoomIn 2s ease;
+  }
+
+  @keyframes zoomIn {
+    from { transform: scale(1.2); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .wa-buttons {
+    position: fixed; bottom: 30px; left: 0;
+    width: 100%; display: flex;
+    justify-content: space-between;
+    padding: 0 25px; pointer-events: none;
+    z-index: 10;
+  }
+  .wa-buttons button {
+    pointer-events: all; padding: 12px 22px;
+    border: none; border-radius: 25px;
+    background: #25D366; color: white;
+    font-weight: 600; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+    transition: transform 0.1s;
+  }
+  .wa-buttons button:active { transform: scale(0.95); }
+
+  .msg-final {
+    position: relative; z-index: 2;
+    color: white; font-size: 1.5rem;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.9);
+    animation: fadeIn 2s ease 1s both;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<audio id="bgmusic" loop autoplay>
+  <source src="Sabar - Sadewok Official Music Video.mp3" type="audio/mpeg">
+</audio>
+
+<div class="page active" id="p1">
+  <div class="typewriter" id="text1"></div>
+  <button class="btn-next" onclick="nextPage(1)">Lanjut</button>
+</div>
+
+<div class="page" id="p2">
+  <div class="typewriter" id="text2"></div>
+  <button class="btn-next" onclick="nextPage(2)">Satu Lagi</button>
+</div>
+
+<div class="page" id="p3">
+  <img src="IMG-20260614-WA0026.jpg" class="photo-full" onclick="showFinal()">
+  <div class="msg-final" id="final" style="display:none;">Aku sayang kamu ❤️</div>
+</div>
+
+<div class="wa-buttons">
+  <button onclick="openWA()">Mau</button>
+  <button onclick="openWA()">Tidak Mau</button>
+</div>
+
+<script>
+  const txt1 = "Aku nggak pinter ngomong romantis.\n\nTapi sejak ada kamu, hari yang biasa aja jadi punya arti.";
+  const txt2 = "Aku tau aku bukan yang terbaik.\n\nTapi aku janji bakal usaha jadi alasan kamu betah di sini.";
+
+  let i1 = 0, i2 = 0;
+  let typing1, typing2;
+
+  function typeWriter1() {
+    if (i1 < txt1.length) {
+      document.getElementById("text1").innerHTML += txt1.charAt(i1);
+      i1++;
+      typing1 = setTimeout(typeWriter1, 60);
+    }
+  }
+
+  function typeWriter2() {
+    if (i2 < txt2.length) {
+      document.getElementById("text2").innerHTML += txt2.charAt(i2);
+      i2++;
+      typing2 = setTimeout(typeWriter2, 60);
+    }
+  }
+
+  function nextPage(current) {
+    document.getElementById('p' + current).classList.remove('active');
+    document.getElementById('p' + (current + 1)).classList.add('active');
+    
+    if (current == 1) typeWriter2();
+  }
+
+  function showFinal() {
+    document.getElementById('final').style.display = 'block';
+  }
+
+  function openWA() {
+    window.open('https://wa.me/62895351432524', '_blank');
+  }
+
+  // Auto play musik + start typing halaman 1
+  window.onload = function() {
+    document.getElementById('bgmusic').play().catch(()=>{});
+    typeWriter1();
+  }
+</script>
+
+</body>
+  </html>
