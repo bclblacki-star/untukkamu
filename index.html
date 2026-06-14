@@ -7,7 +7,9 @@
 
 <meta property="og:title" content="Ada yang mau aku bilang">
 <meta property="og:description" content="Coba buka ini ya">
-<meta property="og:image" content="IMG-20260614-WA0026.jpg">
+<meta property="og:image" content="https://bclblacki-star.github.io/untukkamu/IMG-20260614-WA0026.jpg">
+<meta property="og:url" content="https://bclblacki-star.github.io/untukkamu/">
+<meta property="og:type" content="website">
 
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -66,12 +68,17 @@
     transition: all 0.3s;
     backdrop-filter: blur(5px);
   }
-  .btn-next:hover { background: rgba(255,107,129,0.8); color: white; }
 
   .photo-full {
     width: 100%; height: 100%;
     object-fit: cover;
     position: absolute; top: 0; left: 0;
+    animation: zoomIn 2s ease;
+  }
+
+  @keyframes zoomIn {
+    from { transform: scale(1.2); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
   }
 
   .wa-buttons {
@@ -98,15 +105,22 @@
   }
 
   .msg-final {
-    position: relative; z-index: 2;
-    color: white; font-size: 1.5rem;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.9);
-    animation: fadeIn 2s ease 1s both;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    color: white; 
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.9);
+    opacity: 0;
+    animation: fadeInUp 1.5s ease 2s forwards;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
   }
 </style>
 </head>
@@ -129,8 +143,8 @@
 </div>
 
 <div class="page" id="p3">
-  <img src="IMG-20260614-WA0026.jpg" class="photo-full" onclick="showFinal()">
-  <div class="msg-final" id="final" style="display:none;">Aku sayang kamu ❤️</div>
+  <img src="IMG-20260614-WA0026.jpg" class="photo-full">
+  <div class="msg-final" id="final">Aku sayang kamu ❤️</div>
 </div>
 
 <div class="wa-buttons">
@@ -164,10 +178,6 @@
     document.getElementById('p' + current).classList.remove('active');
     document.getElementById('p' + (current + 1)).classList.add('active');
     if (current == 1) typeWriter2();
-  }
-
-  function showFinal() {
-    document.getElementById('final').style.display = 'block';
   }
 
   function openWA() {
@@ -205,4 +215,4 @@
 </script>
 
 </body>
-   </html>
+     </html>
