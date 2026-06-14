@@ -26,7 +26,7 @@
   .bg {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
-    background: url('attachment://0') center/cover no-repeat;
+    background: url('IMG-20260614-WA0026.jpg') center/cover no-repeat;
     opacity: 0.15; filter: blur(1px);
     z-index: -1;
   }
@@ -77,7 +77,6 @@
     transition: 0.2s;
   }
 
-  /* Tombol Tidak Mau yang kabur */
   #btnNo {
     position: absolute;
     right: 25px;
@@ -109,7 +108,7 @@
 </div>
 
 <div class="page" id="p3">
-  <img src="attachment://0" class="photo-full" onclick="showFinal()">
+  <img src="IMG-20260614-WA0026.jpg" class="photo-full" onclick="showFinal()">
   <div class="msg-final" id="final" style="display:none;">Aku sayang kamu ❤️</div>
 </div>
 
@@ -154,13 +153,11 @@
     window.open('https://wa.me/62895351432524', '_blank');
   }
 
-  // Play musik pas user klik pertama kali
   document.body.addEventListener('click', function playMusic() {
     document.getElementById('bgmusic').play().catch(()=>{});
     document.body.removeEventListener('click', playMusic);
   }, { once: true });
 
-  // Tombol Tidak Mau kabur
   const btnNo = document.getElementById('btnNo');
   
   function moveButton() {
